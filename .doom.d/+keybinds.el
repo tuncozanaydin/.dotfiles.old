@@ -1,8 +1,20 @@
 ;;; ~/.doom.d/+keybinds.el -*- lexical-binding: t; -*-
 
+;; (defvar test (if (boundp 'evil-colemak-basics-keymap) evil-colemak-basics-keymap evil-org-mode-map))
+;; (defun select-keymap ()
+;;   (if (boundp 'evil-colemak-basics-keymap)
+;;       evil-colemak-basics-keymap
+;;     evil-org-mode-map))
+
+(defun select-keymap ()
+  (if (string= system-name "jung")
+      evil-org-mode-map
+    evil-colemak-basics-keymap))
+(defvar agenda-keymap (select-keymap))
 (map!
  (:after org-agenda
-   :map evil-colemak-basics-keymap
+   ;; :map evil-colemak-basics-keymap
+   :map agenda-keymap
    :m "t" #'org-agenda-todo
    :m "p" #'org-agenda-refile
    :m "f" #'org-agenda-set-tags
