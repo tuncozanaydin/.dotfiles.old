@@ -17,7 +17,27 @@
 (setq company-idle-delay 0.2
       company-minimum-prefix-length 3)
 
+;; (defun my/python-mode-hook ()
+;;   (add-to-list 'company-backends 'company-jedi))
+
+;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+
 (epa-file-enable)
+
+(after! realgud
+  (setq realgud:pdb-command-name "python -m pdb"))
+;; # M-x load-library RET realgud RET
+;; # M-x realgud:pdb
+;; # python -m venv venv
+;; # .gitignore ../venv
+;; # source bin/activate
+;; # pip freeze > requirements.txt
+;; # project-name
+;; # |--> venv/
+;; # |--> requirements.txt
+;; # |--> src/
+;; # |--> latex/
+;; # |--> ...
 
 (load! "+org-agenda")
 (load! "+org-drill")

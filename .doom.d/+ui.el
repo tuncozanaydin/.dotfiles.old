@@ -16,4 +16,9 @@
 (pixel-scroll-mode t)
 
 (after! org
-  (set-face-attribute 'org-level-1 nil :height 0.82  :weight 'normal))
+  (set-face-attribute 'org-level-1 nil :height 0.82 :weight 'normal)
+  (set-face-attribute 'org-level-2 nil :weight 'normal)
+  (set-face-attribute 'org-level-3 nil :weight 'normal)
+  (set-face-attribute 'org-level-4 nil :weight 'normal)
+  (set-face-attribute 'org-level-5 nil :weight 'normal)
+  )

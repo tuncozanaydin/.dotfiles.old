@@ -41,7 +41,7 @@
         +defaults)       ; default popup rules
       ;pretty-code       ; replace bits of code with pretty symbols
       ;tabbar            ; FIXME an (incomplete) tab bar for Emacs
-      ;unicode           ; extended unicode support for various languages
+       unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
@@ -64,13 +64,13 @@
 
        :tools
        editorconfig      ; let someone else argue about tabs vs spaces
-      ;ein               ; tame Jupyter notebooks with emacs
+       ein               ; tame Jupyter notebooks with emacs
       ;gist              ; interacting with github gists
       ;macos             ; MacOS-specific commands
       ;make              ; run make tasks from Emacs
-      ;magit             ;
+      magit             ;
       ;password-store    ; password manager for nerds
-      ;pdf               ; pdf enhancements
+      pdf               ; pdf enhancements
       ;prodigy           ; FIXME managing external services & code builders
       ;rgb               ; creating color strings
       ;tmux              ; an API for interacting with tmux
@@ -123,7 +123,7 @@
        (sh +fish)        ; she sells (ba|z)sh shells on the C xor
       ;solidity          ; do you need a blockchain? No.
       ;swift             ; who asked for emoji variables?
-      ;web               ; the tubes
+      web               ; the tubes
 
        ;; Applications are complex and opinionated modules that transform Emacs
        ;; toward a specific purpose. They may have additional dependencies and
