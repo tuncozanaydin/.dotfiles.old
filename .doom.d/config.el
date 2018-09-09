@@ -29,7 +29,7 @@
 ;; # M-x load-library RET realgud RET
 ;; # M-x realgud:pdb
 ;; # python -m venv venv
-;; # .gitignore ../venv
+;; # .gitignore venv
 ;; # source bin/activate
 ;; # pip freeze > requirements.txt
 ;; # project-name
