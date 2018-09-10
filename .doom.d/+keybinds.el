@@ -5,7 +5,7 @@
 ;;   (if (boundp 'evil-colemak-basics-keymap)
 ;;       evil-colemak-basics-keymap
 ;;     evil-org-mode-map))
-
+(global-evil-colemak-basics-mode)
 (defun select-keymap ()
   (if (string= system-name "jung")
       evil-org-mode-map
@@ -16,7 +16,7 @@
    ;; :map evil-colemak-basics-keymap
    :map agenda-keymap
    :m "t" #'org-agenda-todo
-   :m "p" #'org-agenda-refile
+   :m "w" #'org-agenda-refile
    :m "f" #'org-agenda-set-tags
    :m "a" #'org-agenda-archive-default-with-confirmation
    :m "s" #'org-agenda-schedule
@@ -33,7 +33,7 @@
  (:after org-capture
    :map org-capture-mode-map
    :n "k" #'org-capture-kill
-   :n "p" #'org-capture-refile
+   :n "w" #'org-capture-refile
    :n "c" #'org-capture-finalize
    )
 
@@ -53,6 +53,7 @@
    )
  )
 
+;; (lambda nil (global-evil-colemak-basics-mode t))
 
 
 ;; org-agenda

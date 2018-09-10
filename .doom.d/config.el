@@ -23,7 +23,6 @@
 ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
 
 (epa-file-enable)
-
 (after! realgud
   (setq realgud:pdb-command-name "python -m pdb"))
 ;; # M-x load-library RET realgud RET
