@@ -37,6 +37,11 @@
 ;; # |--> src/
 ;; # |--> latex/
 ;; # |--> ...
+;;
+;;TODO
+;;keybindings for indent-region
+;;write own code for colemak mapping
+;;fix keybinding for redo
 
 (load! "+org-agenda")
 (load! "+org-drill")
