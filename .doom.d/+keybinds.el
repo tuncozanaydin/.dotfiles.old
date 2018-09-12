@@ -27,8 +27,8 @@
                                     evil-visual-state-map)))
 (after! evil
 (set-evil-mnvo-binding "h" 'evil-backward-char)
-(set-evil-mnvo-binding "n" 'evil-previous-line)
-(set-evil-mnvo-binding "e" 'evil-next-line)
+(set-evil-mnvo-binding "e" 'evil-previous-line)
+(set-evil-mnvo-binding "n" 'evil-next-line)
 (set-evil-mnvo-binding "i" 'evil-forward-char)
 (set-evil-mnvo-binding "k" 'evil-search-next)
 (set-evil-mnvo-binding "K" 'evil-search-previous)
