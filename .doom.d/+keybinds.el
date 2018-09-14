@@ -17,14 +17,17 @@
     (define-key (pop maps) key def)))
 
 (defun set-evil-mnvo-binding (key def)
-  (set-in-evil-states key def (list evil-motion-state-map
-                                    evil-normal-state-map
-                                    evil-visual-state-map
-                                    evil-operator-state-map)))
+  (unless (string= system-name "jung")
+    (set-in-evil-states key def (list evil-motion-state-map
+                                      evil-normal-state-map
+                                      evil-visual-state-map
+                                      evil-operator-state-map))))
 
 (defun set-evil-nv-binding (key def)
-  (set-in-evil-states key def (list evil-normal-state-map
-                                    evil-visual-state-map)))
+  (unless (string= system-name "jung")
+    (set-in-evil-states key def (list evil-normal-state-map
+                                      evil-visual-state-map))))
+
 (after! evil
 (set-evil-mnvo-binding "h" 'evil-backward-char)
 (set-evil-mnvo-binding "e" 'evil-previous-line)
