@@ -43,7 +43,7 @@
 )
 
 (map!
- :nv "U" #'undo-tree-redo
+ ;; :nv "U" #'undo-tree-redo
  (:after org-agenda
    ;; :map evil-colemak-basics-keymap
    :map evil-org-mode-map

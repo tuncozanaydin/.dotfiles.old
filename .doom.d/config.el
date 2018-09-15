@@ -24,7 +24,7 @@
 
 (epa-file-enable)
 
-(require 'realgud)
+;; (require 'realgud)
 (after! realgud
   (setq realgud:pdb-command-name "python -m pdb"))
 ;; # M-x load-library RET realgud RET
