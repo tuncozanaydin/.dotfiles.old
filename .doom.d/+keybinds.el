@@ -12,6 +12,9 @@
 ;;     (progn (global-evil-colemak-basics-mode) evil-colemak-basics-keymap)))
 ;; (defvar agenda-keymap (select-keymap))
 
+(after! evil
+  )
+
 (defun set-in-evil-states (key def maps)
   (while maps
     (define-key (pop maps) key def)))
@@ -42,11 +45,17 @@
 (set-evil-nv-binding "L" 'undo-tree-redo)
 )
 
+(after! org-agenda
+  (setq org-agenda-mode-map (make-sparse-keymap)))
 (map!
  ;; :nv "U" #'undo-tree-redo
  (:after org-agenda
    ;; :map evil-colemak-basics-keymap
-   :map evil-org-mode-map
+   ;; :map evil-org-mode-map
+   :map org-agenda-mode-map
+   :localleader
+   :m "q" #'org-agenda-quit
+   :m "x" #'org-agenda-exit
    :m "t" #'org-agenda-todo
    :m "w" #'org-agenda-refile
    :m "f" #'org-agenda-set-tags
@@ -54,17 +63,18 @@
    :m "s" #'org-agenda-schedule
    :m "d" #'org-agenda-deadline
    :m "r" #'org-agenda-redo
-   :m "P" #'(lambda () (interactive) (org-capture nil "p"))
-   :m "N" #'(lambda () (interactive) (org-capture nil "n"))
-   :m "C" #'(lambda () (interactive) (org-capture nil "c"))
-   ;; :m "I" #'org-clock-in
-   :m "O" #'org-clock-out
-   ;;:m "C" #'org-clock-cancel
-   :m "R" #'org-clock-in-last
+   :m "l" #'org-agenda-undo
+   :desc "agenda project heading" :m "ap" #'(lambda () (interactive) (org-capture nil "p"))
+   :desc "agenda note heading" :m "an" #'(lambda () (interactive) (org-capture nil "n"))
+   :desc "agenda scrap" :m "aa" #'(lambda () (interactive) (org-capture nil "c"))
+   :desc "clock in" :m "ci" #'org-agenda-clock-in
+   :desc "clock out" :m "co" #'org-agenda-clock-out
+   :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
+   :desc "clock resume" :m "cr" #'org-agenda-clock-in-last
    )
  (:after org-capture
    :map org-capture-mode-map
-   :n "k" #'org-capture-kill
+   :n "x" #'org-capture-kill
    :n "w" #'org-capture-refile
    :n "c" #'org-capture-finalize
    )
@@ -76,12 +86,15 @@
  (:desc "agenda" :prefix "a"
    :desc "week agenda" :nv "w" #'(lambda () (interactive) (progn (org-agenda nil "w")) (delete-other-windows))
    :desc "day agenda" :nv "d" #'(lambda () (interactive) (org-agenda nil "d"))
-   :desc "capture" :nv "c" #'(lambda () (interactive) (org-capture nil "c"))
-   :desc "clock in" :nv "i" #'org-clock-in
+   :desc "capture scrap" :nv "a" #'(lambda () (interactive) (org-capture nil "c"))
+   :desc "clock in" :nv "i" #'(lambda () (interactive)
+                                (setq current-prefix-arg '(4))
+                                (call-interactively 'org-clock-in))
    :desc "clock out" :nv "o" #'org-clock-out
-   :desc "clock goto" :nv "g" #'org-clock-goto
-   ;; :desc "clock resume" :nv "r" #'org-clock-in-last
-   :desc "clock cancel" :nv "c" #'org-clock-cancel
+   :desc "clock goto" :nv "g" #'(lambda () (interactive)
+                                  (setq current-prefix-arg '(4))
+                                  (call-interactively 'org-clock-goto))
+   :desc "clock exit" :nv "x" #'org-clock-cancel
    )
  )
 

@@ -10,8 +10,8 @@
 ;;  (set-face-attribute 'org-level-1 nil :height 1.0))
 ;;(add-hook 'org-mode-hook (set-face-attribute 'org-level-1 nil :height 1.0))
 
-(map! "C-;" 'comment-line)
-(map! "C-s" 'save-buffer)
+;; (map! "C-;" 'comcent-line)
+;; (map! "C-s" 'save-buffer)
 
 (require 'company)
 (setq company-idle-delay 0.2
