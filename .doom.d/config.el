@@ -3,6 +3,7 @@
 (setq doom-font (font-spec :family "Source Code Pro" :size 15))
 (setq doom-theme 'doom-one)
 
+(setq evil-want-integration nil)
 ;;(after! org
 ;;  (set-face-attribute 'org-level-1 nil :height 1.0))
 

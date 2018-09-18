@@ -1,20 +1,5 @@
 ;;; ~/.doom.d/+keybinds.el -*- lexical-binding: t; -*-
 
-;; (defvar test (if (boundp 'evil-colemak-basics-keymap) evil-colemak-basics-keymap evil-org-mode-map))
-;; (defun select-keymap ()
-;;   (if (boundp 'evil-colemak-basics-keymap)
-;;       evil-colemak-basics-keymap
-;;     evil-org-mode-map))
-;; (global-evil-colemak-basics-mode)
-;; (defun select-keymap ()
-;;   (if (string= system-name "jung")
-;;       evil-org-mode-map
-;;     (progn (global-evil-colemak-basics-mode) evil-colemak-basics-keymap)))
-;; (defvar agenda-keymap (select-keymap))
-
-(after! evil
-  )
-
 (defun set-in-evil-states (key def maps)
   (while maps
     (define-key (pop maps) key def)))
@@ -48,10 +33,7 @@
 (after! org-agenda
   (setq org-agenda-mode-map (make-sparse-keymap)))
 (map!
- ;; :nv "U" #'undo-tree-redo
  (:after org-agenda
-   ;; :map evil-colemak-basics-keymap
-   ;; :map evil-org-mode-map
    :map org-agenda-mode-map
    :localleader
    :m "q" #'org-agenda-quit
@@ -59,18 +41,19 @@
    :m "t" #'org-agenda-todo
    :m "w" #'org-agenda-refile
    :m "f" #'org-agenda-set-tags
-   :m "a" #'org-agenda-archive-default-with-confirmation
+   :m "v" #'org-agenda-archive-default-with-confirmation
    :m "s" #'org-agenda-schedule
    :m "d" #'org-agenda-deadline
    :m "r" #'org-agenda-redo
    :m "l" #'org-agenda-undo
-   :desc "agenda project heading" :m "ap" #'(lambda () (interactive) (org-capture nil "p"))
-   :desc "agenda note heading" :m "an" #'(lambda () (interactive) (org-capture nil "n"))
-   :desc "agenda scrap" :m "aa" #'(lambda () (interactive) (org-capture nil "c"))
+   :desc "agenda scrap" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
+   :desc "agenda project heading" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
+   :desc "agenda note heading" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
    :desc "clock in" :m "ci" #'org-agenda-clock-in
    :desc "clock out" :m "co" #'org-agenda-clock-out
    :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
    :desc "clock resume" :m "cr" #'org-agenda-clock-in-last
+   :desc "clock goto" :m "cg" #'org-agenda-clock-goto
    )
  (:after org-capture
    :map org-capture-mode-map
@@ -97,9 +80,6 @@
    :desc "clock exit" :nv "x" #'org-clock-cancel
    )
  )
-
-;; (lambda nil (global-evil-colemak-basics-mode t))
-
 
 ;; org-agenda
 ;; org-capture buffer
