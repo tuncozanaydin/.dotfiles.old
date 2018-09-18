@@ -32,23 +32,27 @@
 
 (after! org-agenda
   (setq org-agenda-mode-map (make-sparse-keymap)))
+(after! evil
+  (setq evil-window-map (make-sparse-keymap)))
 (map!
  (:after org-agenda
    :map org-agenda-mode-map
    :localleader
-   :m "q" #'org-agenda-quit
-   :m "x" #'org-agenda-exit
-   :m "t" #'org-agenda-todo
-   :m "w" #'org-agenda-refile
-   :m "f" #'org-agenda-set-tags
-   :m "v" #'org-agenda-archive-default-with-confirmation
-   :m "s" #'org-agenda-schedule
-   :m "d" #'org-agenda-deadline
-   :m "r" #'org-agenda-redo
-   :m "l" #'org-agenda-undo
-   :desc "agenda scrap" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
-   :desc "agenda project heading" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
-   :desc "agenda note heading" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
+   :desc "quit agenda retain buffers" :m "q" #'org-agenda-quit
+   :desc "exit agenda close buffers" :m "x" #'org-agenda-exit
+   :desc "set todo state" :m "t" #'org-agenda-todo
+   :desc "refile item" :m "w" #'org-agenda-refile
+   :desc "set tags" :m "f" #'org-agenda-set-tags
+   :desc "archive item" :m "v" #'org-agenda-archive-default-with-confirmation
+   :desc "schedule item" :m "s" #'org-agenda-schedule
+   :desc "set deadline" :m "d" #'org-agenda-deadline
+   :desc "refresh" :m "r" #'org-agenda-redo
+   :desc "undo" :m "l" #'org-agenda-undo
+   :desc "kill item" :m "k" #'org-agenda-kill
+   :desc "goto org entry" :m "g" #'org-agenda-goto
+   :desc "capture" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
+   :desc "heading project" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
+   :desc "heading note" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
    :desc "clock in" :m "ci" #'org-agenda-clock-in
    :desc "clock out" :m "co" #'org-agenda-clock-out
    :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
@@ -59,10 +63,29 @@
    :map org-capture-mode-map
    :n "x" #'org-capture-kill
    :n "w" #'org-capture-refile
-   :n "c" #'org-capture-finalize
+   :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
    )
 
  :leader
+ (:prefix "w"
+   :desc "up" :mnvo "e" #'evil-window-up
+   :desc "down" :mnvo "n" #'evil-window-down
+   :desc "left" :mnvo "h" #'evil-window-left
+   :desc "move right" :mnvo "i" #'evil-window-right
+   :desc "next" :mnvo "w" #'evil-window-next
+   :desc "maximize" :mnvo "m" #'delete-other-windows
+   :desc "delete" :mnvo "d" #'evil-window-delete
+   :desc "undo" :mnvo "l" #'winner-undo
+   :desc "redo" :mnvo "L" #'winner-redo
+   :desc "horizontal split" :mnvo "-" #'evil-window-split
+   :desc "vertical split" :mnvo "'" #'evil-window-vsplit
+   :desc "+ height" :mnvo "<up>" #'evil-window-increase-height
+   :desc "- height" :mnvo "<down>" #'evil-window-decrease-height
+   :desc "+ width" :mnvo "<right>" #'evil-window-increase-width
+   :desc "- width" :mnvo "<left>" #'evil-window-decrease-width
+   :desc "balance" :mnvo "=" #'balance-windows
+
+   )
  (:desc "drill" :prefix "D"
    :desc "test" :nv "t" #'(lambda () (interactive) (progn (find-file "~/org/memory.org") (org-drill)))
    )
