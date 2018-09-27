@@ -26,7 +26,7 @@
     (setq org-agenda-tags-column (- 6 (window-width)))
     (org-agenda-align-tags))
 
-  (setq org-tags-column -138)
+  ;; (setq org-tags-column -138)
 
   (setq org-directory "~/Dropbox/org/")
   (setq org-archive-directory (concat org-directory "archive/"))
@@ -71,13 +71,14 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-targets
         '(
-          (my-projects-file :maxlevel . 1)
-          (my-notes-file :maxlevel . 1)
-          (my-one-off-file :maxlevel . 1)
-          (my-events-file :maxlevel . 1)
-          (my-sprints-file :maxlevel . 2)
-          (my-backlog-file :maxlevel . 1)
-          (my-someday-maybe-file :maxlevel . 1)
+          (my-projects-file :todo . "PROJECT")
+          ;; (my-notes-file :maxlevel . 1)
+          (my-one-off-file :todo . "")
+          (my-events-file :todo . "")
+          (my-sprints-file :todo . "PROJECT")
+          (my-sprints-file :todo . "SPRINT")
+          (my-backlog-file :todo . "")
+          ;;(my-someday-maybe-file :maxlevel . 1)
           )
         )
 
@@ -125,12 +126,22 @@
   ;;                " > ")
   ;;     ))
 
-  (defun toa/print-org-outline-path ()
-      (org-format-outline-path (org-get-outline-path) 30 nil ">"))
+  ;; (setq org-agenda-hide-tags-regexp ".*")
+  ;; (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
+
+  (defun toa/print-org-outline-path (l)
+      (org-format-outline-path (org-get-outline-path) l nil "->"))
+
+  (defun toa/print-org-entry (l)
+    (org-format-outline-path (list (org-entry-get nil "ITEM")) l nil ""))
 
   (defun show-startdate-text ()
     (if (org-entry-properties (point) "important") "tsts" "**"))
 
+  (setq org-agenda-timerange-leaders (list "" "<%-2d/%-2d>: "))
+  ;; (setq org-agenda-compact-blocks t)
+  (setq org-agenda-block-separator 46)
+  ;; (setq org-agenda-remove-times-when-in-prefix nil)
   (setq org-agenda-custom-commands
         '(
           ("t" "timeline view"
@@ -146,34 +157,67 @@
             (agenda ""
                     ((org-agenda-span 'month)
                      (org-deadline-warning-days 30)
-                     (org-agenda-files (list my-sprints-file))
+                     (org-agenda-files (list my-sprints-file my-backlog-file
+                                             my-projects-file my-one-off-file
+                                             my-events-file))
+                     (org-agenda-prefix-format " %i %-12t% s")
+                     ;; (org-agenda-skip-scheduled-if-deadline-is-shown t)
                      (org-agenda-start-with-log-mode t)))
-            (tags "+TODO=\"SPRINT\"+DEADLINE<>\"\""
+
+            (tags "+TODO=\"SPRINT\""
                   ((org-agenda-overriding-header "Planned Sprints")
+                   (org-agenda-prefix-format " %i %-30t% s")
                    (org-agenda-files (list my-sprints-file))))
 
-            (tags "+LEVEL=2+TODO=\"PROJECT\""
-                  ((org-agenda-overriding-header "Sprint Projects")
-                   ;; (org-agenda-prefix-format " %i %-12c%?-12t% s")
-                   (org-agenda-files (list my-sprints-file))))
-
-            (tags "+LEVEL=3+TODO=\"TODO\""
-                  ((org-agenda-overriding-header "Sprint Actionables")
-                   (org-agenda-prefix-format " %i %?-30(toa/print-org-outline-path)")
-                   (org-agenda-files (list my-sprints-file))))
-
-            (tags "+LEVEL=3+TODO=\"WAITING\""
-                  ((org-agenda-overriding-header "Sprint Blockers")
-                   (org-agenda-files (list my-sprints-file))))
-
-            (tags "+TODO=\"SPRINT\"-DEADLINE<>\"\""
-                  ((org-agenda-overriding-header "Unscheduled Sprints")
-                   (org-agenda-files (list my-sprints-file))))
+            (tags "+TODO=\"TARGET\"|+TODO=\"VISION\""
+                  ((org-agenda-overriding-header "Targets and Visions")
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 23) % s")
+                   (org-agenda-files (list my-backlog-file))))
 
             (tags "+TODO=\"REQUIREMENT\"|+TODO=\"MILESTONE\""
+                  ((org-agenda-overriding-header "Requirements and Milestones")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30)% s")
+                   (org-agenda-files (list my-sprints-file))))
+
+            (tags "+TODO=\"PROJECT\""
+                  ((org-agenda-overriding-header "Projects")
+                   (org-agenda-todo-keyword-format "%+7s")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-sprints-file my-projects-file))))
+
+            (tags "+TODO=\"TODO\""
+                  ((org-agenda-overriding-header "Actionables")
+                   (org-agenda-todo-keyword-format "%+4s")
+                   (org-agenda-prefix-format 
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-sprints-file my-projects-file
+                                           my-papers-file my-one-off-file))))
+
+            (tags "+TODO=\"WAITING\""
+                  ((org-agenda-overriding-header "Blockers")
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 23) % s")
+                   (org-agenda-files (list my-sprints-file my-projects-file))))
+
+            (tags "+TODO<>\"SCRAP\"+TODO<>\"DONE\""
                   ((org-agenda-overriding-header "Backlog")
+                   (org-agenda-sorting-strategy '(todo-state-down tag-up))
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 23) % s")
                    (org-agenda-files (list my-backlog-file))))
+
+            ;; (tags "+TODO<>\"\""
+            (tags "+LEVEL>=1"
+                  ((org-agenda-overriding-header "Inbox")
+                   (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-inbox-file))))
             )
+
            )
           ;; ("d" "Daily View"
           ;;  ((agenda ""
@@ -328,15 +372,30 @@
                         ("research" . ?r)
                         ("publication" . ?p)
                         ("publicity" . ?u)
-                        ("patent" . ?q)
-                        ("techTransfer" . ?t)
-                        ("academicService" . ?a)
-                        ("externalProjects" . ?e)
-                        ("studentAdvice" . ?s)
+                        ("patent" . ?n)
+                        ("techXfer" . ?t)
+                        ("academic" . ?a)
+                        ("student" . ?s)
                         ("personal" . ?m)
-                        ("myfamily" . ?f)
-                        ("@home" . ?h)
                         ))
+  ;; (setq org-tag-alist '(
+  ;;                       ("overhead" . ?o)
+  ;;                       ("support" . ?s)
+  ;;                       ("outlook" . ?l)
+  ;;                       ("blueSky" . ?b)
+  ;;                       ("knowledge" . ?k)
+  ;;                       ("research" . ?r)
+  ;;                       ("publication" . ?p)
+  ;;                       ("publicity" . ?u)
+  ;;                       ("patent" . ?q)
+  ;;                       ("techTransfer" . ?t)
+  ;;                       ("academicService" . ?a)
+  ;;                       ("externalProjects" . ?e)
+  ;;                       ("studentAdvice" . ?s)
+  ;;                       ("personal" . ?m)
+  ;;                       ("myfamily" . ?f)
+  ;;                       ("@home" . ?h)
+  ;;                       ))
   ;; (setq org-agenda-tag-filter-preset '("-mustRead"))
   ;; (setq org-agenda-hide-tags-regexp "imageProcessing\\|videoProcessing\\|burstImages\\|2017\\|2016\\|2015\\|2014andOlder")
   ;; (setq org-agenda-hide-tags-regexp ".*_")
