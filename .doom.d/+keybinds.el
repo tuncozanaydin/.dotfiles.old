@@ -43,13 +43,17 @@
    :desc "set todo state" :m "t" #'org-agenda-todo
    :desc "refile item" :m "w" #'org-agenda-refile
    :desc "set tags" :m "f" #'org-agenda-set-tags
-   :desc "archive item" :m "v" #'org-agenda-archive-default-with-confirmation
+   :desc "archive item" :m "b" #'org-agenda-archive-default-with-confirmation
    :desc "schedule item" :m "s" #'org-agenda-schedule
    :desc "set deadline" :m "d" #'org-agenda-deadline
    :desc "refresh" :m "r" #'org-agenda-redo
    :desc "undo" :m "l" #'org-agenda-undo
    :desc "kill item" :m "k" #'org-agenda-kill
    :desc "goto org entry" :m "g" #'org-agenda-goto
+   :desc "goto tree" :m "<tab>" #'org-tree-to-indirect-buffer
+   :desc "open link" :m "o" #'org-agenda-open-link
+   :desc "show entry text" :m "e" #'org-agenda-entry-text-mode
+   :desc "save all" :m "S" #'projectile-save-project-buffers
    :desc "capture" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
    :desc "heading project" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
    :desc "heading note" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
@@ -58,6 +62,13 @@
    :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
    :desc "clock resume" :m "cr" #'org-agenda-clock-in-last
    :desc "clock goto" :m "cg" #'org-agenda-clock-goto
+   :desc "day view" :m "vd" #'org-agenda-day-view
+   :desc "week view" :m "vw" #'org-agenda-week-view
+   :desc "fortnight view" :m "vf" #'org-agenda-fortnight-view
+   :desc "month view" :m "vm" #'org-agenda-month-view
+   :desc "later" :m "vn" #'org-agenda-later
+   :desc "earlier" :m "ve" #'org-agenda-earlier
+   :desc "today" :m "vt" #'org-agenda-goto-today
    )
  (:after org-capture
    :map org-capture-mode-map
@@ -90,8 +101,9 @@
    :desc "test" :nv "t" #'(lambda () (interactive) (progn (find-file "~/org/memory.org") (org-drill)))
    )
  (:desc "agenda" :prefix "a"
-   :desc "week agenda" :nv "w" #'(lambda () (interactive) (progn (org-agenda nil "w")) (delete-other-windows))
-   :desc "day agenda" :nv "d" #'(lambda () (interactive) (org-agenda nil "d"))
+   :desc "strategy view" :nv "s" #'(lambda () (interactive) (progn (org-agenda nil "s")) (delete-other-windows))
+   :desc "plan view" :nv "p" #'(lambda () (interactive) (progn (org-agenda nil "p")) (delete-other-windows))
+   :desc "focus view" :nv "f" #'(lambda () (interactive) (org-agenda nil "f"))
    :desc "capture scrap" :nv "a" #'(lambda () (interactive) (org-capture nil "c"))
    :desc "clock in" :nv "i" #'(lambda () (interactive)
                                 (setq current-prefix-arg '(4))

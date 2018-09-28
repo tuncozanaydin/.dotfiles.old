@@ -1,10 +1,18 @@
 ;;; ~/.doom.d/+org.el -*- lexical-binding: t; -*-
 
+(add-hook 'org-mode-hook
+      '(lambda ()
+         (delete '("\\.pdf\\'" . default) org-file-apps)
+         (add-to-list 'org-file-apps '("\\.pdf\\'" . "evince %s"))))
+
 (after! org
 
  (setq org-agenda-window-setup 'current-window)
  (set-popup-rule! "^\\*Org Agenda"
    :size 1.0)
+
+
+  (setq org-agenda-hide-tags-regexp ".*_")
 
   ;; (defun foo ()
   ;;   (let ((x (org-get-outline-path)))
@@ -32,11 +40,11 @@
   (setq org-archive-directory (concat org-directory "archive/"))
   (setq org-archive-location (concat org-archive-directory "%s::"))
   (setq my-inbox-file (concat org-directory "inbox.org"))
-  (setq my-projects-file (concat org-directory "projects.org"))
+  (setq my-projects-file (concat org-directory "projects.org.gpg"))
   (setq my-someday-maybe-file (concat org-directory "someday.org"))
   ;; (setq my-sticky-file (concat org-directory "sticky.org"))
   (setq my-one-off-file (concat org-directory "one-off.org"))
-  (setq my-sprints-file (concat org-directory "sprints.org"))
+  ;; (setq my-sprints-file (concat org-directory "sprints.org.gpg"))
   (setq my-backlog-file (concat org-directory "backlog.org.gpg"))
   (setq my-orgzly-file (concat org-directory "orgzly.org"))
   (setq my-events-file (concat org-directory "events.org"))
@@ -71,13 +79,14 @@
   (setq org-outline-path-complete-in-steps nil)
   (setq org-refile-targets
         '(
-          (my-projects-file :todo . "PROJECT")
           ;; (my-notes-file :maxlevel . 1)
           (my-one-off-file :todo . "")
           (my-events-file :todo . "")
-          (my-sprints-file :todo . "PROJECT")
-          (my-sprints-file :todo . "SPRINT")
+          (my-projects-file :todo . "PROJECT")
+          (my-projects-file :todo . "SPRINT")
           (my-backlog-file :todo . "")
+          (my-backlog-file :todo . "SPRINT")
+          (my-backlog-file :todo . "PROJECT")
           ;;(my-someday-maybe-file :maxlevel . 1)
           )
         )
@@ -103,7 +112,11 @@
           ))
 
   (setq org-agenda-start-with-log-mode t)
-  (setq org-stuck-projects '("+LEVEL=1" ("TODO") nil ""))
+  (setq org-stuck-projects '("+TODO=\"PROJECT\"" ("TODO") nil ""))
+
+  ;; How many lines to show
+  (setq org-agenda-entry-text-maxlines 20)
+  (setq org-agenda-entry-text-leaders "                                       ")
   ;; (setq org-agenda-files (list my-projects-file my-one-off-file my-events-file
   ;;                              my-papers-file my-backlog-file my-sprints-file))
 ;; ((agenda . " %i %-12:c%?-12t% s")
@@ -128,9 +141,8 @@
 
   ;; (setq org-agenda-hide-tags-regexp ".*")
   ;; (setq org-agenda-skip-scheduled-if-deadline-is-shown t)
-
   (defun toa/print-org-outline-path (l)
-      (org-format-outline-path (org-get-outline-path) l nil "->"))
+      (org-format-outline-path (org-get-outline-path) l nil "→"))
 
   (defun toa/print-org-entry (l)
     (org-format-outline-path (list (org-entry-get nil "ITEM")) l nil ""))
@@ -144,20 +156,92 @@
   ;; (setq org-agenda-remove-times-when-in-prefix nil)
   (setq org-agenda-custom-commands
         '(
-          ("t" "timeline view"
-           ((agenda ""
-                    ((org-agenda-span 'month)
-                     (org-deadline-warning-days 30)
+          ("f" "focus view"
+           (
+            (agenda ""
+                    ((org-agenda-span 'day)
+                     (org-agenda-start-day "<today>")
+                     (org-agenda-start-on-weekday nil)
+                     (org-deadline-warning-days 7)
+                     (org-agenda-files (list my-backlog-file
+                                             my-projects-file my-one-off-file
+                                             my-events-file))
+                     (org-agenda-prefix-format " %i %-12t% s")
                      (org-agenda-start-with-log-mode t)))
+
+            (tags "+TODO=\"WAITING\""
+                  ((org-agenda-overriding-header "Blockers")
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 23) % s")
+                   (org-agenda-files (list my-projects-file))))
+
+            (tags "+TODO=\"DONE\"+CLOSED\"<-1d>\""
+                  ((org-agenda-overriding-header "Closed during the last 24 hours ")
+                   (org-agenda-todo-keyword-format "%+4s")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-projects-file
+                                           my-papers-file my-one-off-file))))
             )
            )
 
-          ("w" "master view"
+          ("p" "plan view"
            (
             (agenda ""
-                    ((org-agenda-span 'month)
+                    ((org-agenda-span 'week)
+                     (org-agenda-start-on-weekday 1)
+                     (org-deadline-warning-days 14)
+                     (org-agenda-files (list my-backlog-file
+                                             my-projects-file my-one-off-file
+                                             my-events-file))
+                     (org-agenda-prefix-format " %i %-12t% s")
+                     (org-agenda-start-with-log-mode t)))
+
+            (stuck ""
+                   ((org-agenda-overriding-header "Stuck Projects")
+                   (org-agenda-prefix-format
+                    " %i %?-25(toa/print-org-outline-path 25) % s")
+                    (org-agenda-files (list my-projects-file))
+                    ))
+
+            (tags "+TODO=\"TODO\""
+                  ((org-agenda-overriding-header "Actionables")
+                   (org-agenda-todo-keyword-format "%+4s")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-projects-file
+                                           my-papers-file my-one-off-file))))
+
+            (tags "+TODO=\"WAITING\""
+                  ((org-agenda-overriding-header "Blockers")
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 23) % s")
+                   (org-agenda-files (list my-projects-file))))
+
+            (tags "+LEVEL>=1"
+                  ((org-agenda-overriding-header "Inbox")
+                   (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
+                   (org-agenda-prefix-format
+                    " %i %?-23(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-inbox-file))))
+
+            (tags "+TODO=\"DONE\"+CLOSED\"<-1w>\""
+                  ((org-agenda-overriding-header "Closed during the last 7 days ")
+                   (org-agenda-todo-keyword-format "%+4s")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-projects-file
+                                           my-papers-file my-one-off-file))))
+            )
+           )
+
+          ("s" "strategy view"
+           (
+            (agenda ""
+                    ((org-agenda-span 'week)
+                     (org-agenda-start-on-weekday 1)
                      (org-deadline-warning-days 30)
-                     (org-agenda-files (list my-sprints-file my-backlog-file
+                     (org-agenda-files (list my-backlog-file
                                              my-projects-file my-one-off-file
                                              my-events-file))
                      (org-agenda-prefix-format " %i %-12t% s")
@@ -167,40 +251,47 @@
             (tags "+TODO=\"SPRINT\""
                   ((org-agenda-overriding-header "Planned Sprints")
                    (org-agenda-prefix-format " %i %-30t% s")
-                   (org-agenda-files (list my-sprints-file))))
+                   (org-agenda-files (list my-projects-file))))
 
             (tags "+TODO=\"TARGET\"|+TODO=\"VISION\""
                   ((org-agenda-overriding-header "Targets and Visions")
                    (org-agenda-prefix-format
                     " %i %?-23(toa/print-org-outline-path 23) % s")
-                   (org-agenda-files (list my-backlog-file))))
+                   (org-agenda-files (list my-projects-file))))
 
             (tags "+TODO=\"REQUIREMENT\"|+TODO=\"MILESTONE\""
                   ((org-agenda-overriding-header "Requirements and Milestones")
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30)% s")
-                   (org-agenda-files (list my-sprints-file))))
+                   (org-agenda-files (list my-projects-file))))
 
             (tags "+TODO=\"PROJECT\""
-                  ((org-agenda-overriding-header "Projects")
+                  ((org-agenda-overriding-header "Active Projects")
                    (org-agenda-todo-keyword-format "%+7s")
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30) % s")
-                   (org-agenda-files (list my-sprints-file my-projects-file))))
+                   (org-agenda-files (list my-projects-file))))
+
+            (stuck ""
+                   ((org-agenda-overriding-header "Stuck Projects")
+                   (org-agenda-prefix-format
+                    " %i %?-25(toa/print-org-outline-path 25) % s")
+                    (org-agenda-files (list my-projects-file))
+                    ))
 
             (tags "+TODO=\"TODO\""
                   ((org-agenda-overriding-header "Actionables")
                    (org-agenda-todo-keyword-format "%+4s")
                    (org-agenda-prefix-format 
                     " %i %?-30(toa/print-org-outline-path 30) % s")
-                   (org-agenda-files (list my-sprints-file my-projects-file
+                   (org-agenda-files (list my-projects-file
                                            my-papers-file my-one-off-file))))
 
             (tags "+TODO=\"WAITING\""
                   ((org-agenda-overriding-header "Blockers")
                    (org-agenda-prefix-format
                     " %i %?-23(toa/print-org-outline-path 23) % s")
-                   (org-agenda-files (list my-sprints-file my-projects-file))))
+                   (org-agenda-files (list my-projects-file))))
 
             (tags "+TODO<>\"SCRAP\"+TODO<>\"DONE\""
                   ((org-agenda-overriding-header "Backlog")
@@ -209,13 +300,27 @@
                     " %i %?-23(toa/print-org-outline-path 23) % s")
                    (org-agenda-files (list my-backlog-file))))
 
-            ;; (tags "+TODO<>\"\""
             (tags "+LEVEL>=1"
                   ((org-agenda-overriding-header "Inbox")
                    (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
                    (org-agenda-prefix-format
                     " %i %?-23(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-inbox-file))))
+
+            (tags "+TODO=\"DONE\"+CLOSED\"<-1w>\""
+                  ((org-agenda-overriding-header "Closed during the last 7 days")
+                   (org-agenda-todo-keyword-format "%+4s")
+                   (org-agenda-prefix-format
+                    " %i %?-30(toa/print-org-outline-path 30) % s")
+                   (org-agenda-files (list my-projects-file
+                                           my-papers-file my-one-off-file))))
+            ;; (tags "+TODO=\"DONE\"+CLOSED>\"<-1w>\""
+            ;;       ((org-agenda-overriding-header "Actions Since One Week Ago")
+            ;;        (org-agenda-todo-keyword-format "%+7s")
+            ;;        (org-agenda-hide-tags-regexp ".*_")
+            ;;        (org-agenda-prefix-format "%i %?-28(foo)")
+            ;;        (org-agenda-files (list my-projects-file my-inbox-file my-one-off-file my-papers-file))
+            ;;        (org-agenda-sorting-strategy '(time-down tag-up))))
             )
 
            )
