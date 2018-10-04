@@ -7,10 +7,12 @@
 
 (after! org
 
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.3))
+  (setq org-hide-emphasis-markers t)
+
  (setq org-agenda-window-setup 'current-window)
  (set-popup-rule! "^\\*Org Agenda"
    :size 1.0)
-
 
   (setq org-agenda-hide-tags-regexp ".*_")
 
