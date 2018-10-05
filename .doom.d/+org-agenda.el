@@ -153,6 +153,11 @@
   (defun show-startdate-text ()
     (if (org-entry-properties (point) "important") "tsts" "**"))
 
+
+  (org-clock-persistence-insinuate)
+  (setq org-clock-persist-query-resume nil)
+  (setq org-clock-persist t)
+
   (setq org-agenda-timerange-leaders (list "" "<%-2d/%-2d>: "))
   ;; (setq org-agenda-compact-blocks t)
   (setq org-agenda-block-separator 46)
@@ -178,7 +183,7 @@
                     " %i %?-23(toa/print-org-outline-path 23) % s")
                    (org-agenda-files (list my-projects-file))))
 
-            (tags "+TODO=\"DONE\"+CLOSED\"<-1d>\""
+            (tags "+TODO=\"DONE\"+CLOSED>\"<-1d>\""
                   ((org-agenda-overriding-header "Closed during the last 24 hours ")
                    (org-agenda-todo-keyword-format "%+4s")
                    (org-agenda-prefix-format
@@ -228,7 +233,7 @@
                     " %i %?-23(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-inbox-file))))
 
-            (tags "+TODO=\"DONE\"+CLOSED\"<-1w>\""
+            (tags "+TODO=\"DONE\"+CLOSED>\"<-1w>\""
                   ((org-agenda-overriding-header "Closed during the last 7 days ")
                    (org-agenda-todo-keyword-format "%+4s")
                    (org-agenda-prefix-format
@@ -310,7 +315,7 @@
                     " %i %?-23(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-inbox-file))))
 
-            (tags "+TODO=\"DONE\"+CLOSED\"<-1w>\""
+            (tags "+TODO=\"DONE\"+CLOSED>\"<-1w>\""
                   ((org-agenda-overriding-header "Closed during the last 7 days")
                    (org-agenda-todo-keyword-format "%+4s")
                    (org-agenda-prefix-format

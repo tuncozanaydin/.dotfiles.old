@@ -19,6 +19,9 @@
 ;; (require 'realgud)
 (after! realgud
   (setq realgud:pdb-command-name "python -m pdb"))
+
+;; This might apparently help with stuttering
+(setq doom-gc-cons-threshold (* 2 16777216))
 ;; # M-x load-library RET realgud RET
 ;; # M-x realgud:pdb
 ;; # python -m venv venv

@@ -72,9 +72,10 @@
    )
  (:after org-capture
    :map org-capture-mode-map
-   :n "x" #'org-capture-kill
-   :n "w" #'org-capture-refile
-   :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
+   :localleader
+   :desc "kill buffer" :n "x" #'org-capture-kill
+   :desc "refile" :n "w" #'org-capture-refile
+   :desc "save and close" :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
    )
 
  :leader
