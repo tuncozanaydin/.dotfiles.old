@@ -85,6 +85,7 @@
    :desc "new file" :n "n" #'deft-new-file-named
    :desc "quit" :n "q" #'quit-window
    :desc "rename file" :n "r" #'deft-rename-file
+   :desc "archive file" :n "a" #'deft-archive-file
    )
 
  :leader
