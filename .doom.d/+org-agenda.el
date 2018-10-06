@@ -7,12 +7,19 @@
 
 (after! org
 
+  (after! deft
+    (setq deft-extensions '("org" "txt"))
+    (setq deft-directory "~/Dropbox/org/notes")
+    (setq deft-default-extension "org")
+    (setq deft-use-filename-as-title t)
+    )
+
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.3))
   (setq org-hide-emphasis-markers t)
 
- (setq org-agenda-window-setup 'current-window)
- (set-popup-rule! "^\\*Org Agenda"
-   :size 1.0)
+  (setq org-agenda-window-setup 'current-window)
+  (set-popup-rule! "^\\*Org Agenda"
+    :size 1.0)
 
   (setq org-agenda-hide-tags-regexp ".*_")
 
@@ -197,8 +204,8 @@
           ("p" "plan view"
            (
             (agenda ""
-                    ((org-agenda-span 'week)
-                     (org-agenda-start-on-weekday 1)
+                    ((org-agenda-span 'day)
+                     (org-agenda-start-day "<today>")
                      (org-deadline-warning-days 14)
                      (org-agenda-files (list my-backlog-file
                                              my-projects-file my-one-off-file

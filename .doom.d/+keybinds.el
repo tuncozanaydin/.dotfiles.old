@@ -78,6 +78,15 @@
    :desc "insert link" :n "l" #'org-insert-link
    )
 
+ (:after deft
+   :map deft-mode-map
+   :localleader
+   :desc "delete file" :n "d" #'deft-delete-file
+   :desc "new file" :n "n" #'deft-new-file-named
+   :desc "quit" :n "q" #'quit-window
+   :desc "rename file" :n "r" #'deft-rename-file
+   )
+
  :leader
  (:prefix "w"
    :desc "up" :mnvo "e" #'evil-window-up
@@ -114,6 +123,7 @@
                                   (setq current-prefix-arg '(4))
                                   (call-interactively 'org-clock-goto))
    :desc "clock exit" :nv "x" #'org-clock-cancel
+   :desc "notes (deft)" :nv "n" #'deft
    (:desc "links" :prefix "l"
      :desc "store" :nv "s" #'org-store-link
      :desc "insert" :nv "i" #'org-insert-link)
