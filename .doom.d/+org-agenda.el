@@ -59,21 +59,21 @@
   (setq org-capture-templates
         '(
           ("u" "purpose" entry (file my-backlog-file)
-           "* PURPOSE %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* PURPOSE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("v" "vision" entry (file my-backlog-file)
-           "* VISION %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* VISION %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("t" "target" entry (file my-backlog-file)
-           "* TARGET %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* TARGET %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("m" "milestone" entry (file my-backlog-file)
-           "* MILESTONE %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* MILESTONE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("r" "requirements" entry (file my-backlog-file)
-           "* REQUIREMENT %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* REQUIREMENT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("p" "project" entry (file my-projects-file)
-           "* PROJECT %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* PROJECT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("n" "note-heading" entry (file my-notes-file)
-           "* %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("c" "scrap" entry (file my-inbox-file)
-           "* SCRAP %?\n:PROPERTIES:\n:Created:\t%U\n:END:\n")
+           "* SCRAP %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           )
         ) ;; org-capture-templates
 
@@ -93,10 +93,11 @@
           )
         )
 
+  (setq org-log-done 'time)
   (setq org-todo-keywords
         '((sequence "SCRAP(a)" "TODO(t)" "WAITING(w)" "EVENT(e)" "PROJECT(p)"
                     "SPRINT(s)" "MILESTONE(m)" "REQUIREMENT(r)" "TARGET(g)"
-                    "VISION(v)" "PURPOSE(u)" "|" "DONE(d)" "NOTE(n)")))
+                    "VISION(v)" "PURPOSE(u)" "NOTE(n)" "|" "DONE(d)" )))
   (setq org-todo-keyword-faces
         '(("SCRAP" . (:foreground "LightYellow3" :weight semi-bold ))
           ("TODO" (:foreground "OrangeRed" :weight semi-bold))

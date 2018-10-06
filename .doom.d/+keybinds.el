@@ -50,7 +50,6 @@
    :desc "undo" :m "l" #'org-agenda-undo
    :desc "kill item" :m "k" #'org-agenda-kill
    :desc "goto org entry" :m "g" #'org-agenda-goto
-   :desc "goto tree" :m "<tab>" #'org-tree-to-indirect-buffer
    :desc "open link" :m "o" #'org-agenda-open-link
    :desc "show entry text" :m "e" #'org-agenda-entry-text-mode
    :desc "save all" :m "S" #'projectile-save-project-buffers
@@ -76,6 +75,7 @@
    :desc "kill buffer" :n "x" #'org-capture-kill
    :desc "refile" :n "w" #'org-capture-refile
    :desc "save and close" :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
+   :desc "insert link" :n "l" #'org-insert-link
    )
 
  :leader
@@ -114,6 +114,9 @@
                                   (setq current-prefix-arg '(4))
                                   (call-interactively 'org-clock-goto))
    :desc "clock exit" :nv "x" #'org-clock-cancel
+   (:desc "links" :prefix "l"
+     :desc "store" :nv "s" #'org-store-link
+     :desc "insert" :nv "i" #'org-insert-link)
    )
  )
 

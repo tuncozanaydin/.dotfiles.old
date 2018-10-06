@@ -3,3 +3,4 @@
 
 ;; (package! evil-colemak-basics)
 (package! pyvenv)
+(package! deft)
