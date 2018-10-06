@@ -125,6 +125,7 @@
                                   (call-interactively 'org-clock-goto))
    :desc "clock exit" :nv "x" #'org-clock-cancel
    :desc "notes (deft)" :nv "n" #'deft
+   :desc "clocktables" :nv "c" #'(lambda () (interactive) (progn (find-file "~/org/clocktables.org") (org-update-all-dblocks)))
    (:desc "links" :prefix "l"
      :desc "store" :nv "s" #'org-store-link
      :desc "insert" :nv "i" #'org-insert-link)

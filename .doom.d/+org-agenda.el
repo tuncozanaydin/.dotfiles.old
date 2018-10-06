@@ -14,6 +14,8 @@
     (setq deft-use-filename-as-title t)
     )
 
+  (setq org-duration-format (quote h:mm))
+
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.3))
   (setq org-hide-emphasis-markers t)
 
@@ -50,35 +52,35 @@
   (setq org-archive-location (concat org-archive-directory "%s::"))
   (setq my-inbox-file (concat org-directory "inbox.org"))
   (setq my-projects-file (concat org-directory "projects.org.gpg"))
-  (setq my-someday-maybe-file (concat org-directory "someday.org"))
+  ;; (setq my-someday-maybe-file (concat org-directory "someday.org"))
   ;; (setq my-sticky-file (concat org-directory "sticky.org"))
-  (setq my-one-off-file (concat org-directory "one-off.org"))
+  ;; (setq my-one-off-file (concat org-directory "one-off.org"))
   ;; (setq my-sprints-file (concat org-directory "sprints.org.gpg"))
   (setq my-backlog-file (concat org-directory "backlog.org.gpg"))
   (setq my-orgzly-file (concat org-directory "orgzly.org"))
-  (setq my-events-file (concat org-directory "events.org"))
+  ;; (setq my-events-file (concat org-directory "events.org"))
   (setq my-papers-file (concat org-directory "papers.org"))
-  (setq my-notes-file (concat org-directory "notes.org"))
+  ;; (setq my-notes-file (concat org-directory "notes.org"))
 
-  (setq +org-default-todo-file my-inbox-file)
-  (setq +org-default-notes-file my-notes-file)
+  ;; (setq +org-default-todo-file my-inbox-file)
+  ;; (setq +org-default-notes-file my-notes-file)
 
   (setq org-capture-templates
         '(
-          ("u" "purpose" entry (file my-backlog-file)
-           "* PURPOSE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("v" "vision" entry (file my-backlog-file)
-           "* VISION %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("t" "target" entry (file my-backlog-file)
-           "* TARGET %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("m" "milestone" entry (file my-backlog-file)
-           "* MILESTONE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("r" "requirements" entry (file my-backlog-file)
-           "* REQUIREMENT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("p" "project" entry (file my-projects-file)
-           "* PROJECT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
-          ("n" "note-heading" entry (file my-notes-file)
-           "* %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("u" "purpose" entry (file my-backlog-file)
+          ;;  "* PURPOSE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("v" "vision" entry (file my-backlog-file)
+          ;;  "* VISION %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("t" "target" entry (file my-backlog-file)
+          ;;  "* TARGET %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("m" "milestone" entry (file my-backlog-file)
+          ;;  "* MILESTONE %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("r" "requirements" entry (file my-backlog-file)
+          ;;  "* REQUIREMENT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("p" "project" entry (file my-projects-file)
+          ;;  "* PROJECT %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
+          ;; ("n" "note-heading" entry (file my-notes-file)
+          ;;  "* %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           ("c" "scrap" entry (file my-inbox-file)
            "* SCRAP %?\n:PROPERTIES:\n:CREATED:\t%U\n:END:\n")
           )
@@ -89,8 +91,8 @@
   (setq org-refile-targets
         '(
           ;; (my-notes-file :maxlevel . 1)
-          (my-one-off-file :todo . "")
-          (my-events-file :todo . "")
+          ;; (my-one-off-file :todo . "")
+          ;; (my-events-file :todo . "")
           (my-projects-file :todo . "PROJECT")
           (my-projects-file :todo . "SPRINT")
           (my-backlog-file :todo . "")
@@ -104,7 +106,7 @@
   (setq org-todo-keywords
         '((sequence "SCRAP(a)" "TODO(t)" "WAITING(w)" "EVENT(e)" "PROJECT(p)"
                     "SPRINT(s)" "MILESTONE(m)" "REQUIREMENT(r)" "TARGET(g)"
-                    "VISION(v)" "PURPOSE(u)" "NOTE(n)" "|" "DONE(d)" )))
+                    "VISION(v)" "PURPOSE(u)" "|" "DONE(d)" )))
   (setq org-todo-keyword-faces
         '(("SCRAP" . (:foreground "LightYellow3" :weight semi-bold ))
           ("TODO" (:foreground "OrangeRed" :weight semi-bold))
@@ -117,13 +119,13 @@
           ("VISION" (:foreground "SkyBlue1" :weight thin))
           ("PURPOSE" (:foreground "SkyBlue1" :weight thin))
           ("DONE" (:foreground "LimeGreen" :weight bold))
-          ("NOTE" (:foreground "SkyBlue1" :weight semi-bold))
-          ("STICKY" (:foreground "FireBrick3" :weight semi-bold))
+          ;; ("NOTE" (:foreground "SkyBlue1" :weight semi-bold))
+          ;; ("STICKY" (:foreground "FireBrick3" :weight semi-bold))
           ("EVENT" (:foreground "Orchid1" :weight semi-bold))
           ))
 
   (setq org-agenda-start-with-log-mode t)
-  (setq org-stuck-projects '("+TODO=\"PROJECT\"" ("TODO") nil ""))
+  (setq org-stuck-projects '("+TODO=\"PROJECT\"|TODO=\"SPRINT\"" ("TODO") nil ""))
 
   ;; How many lines to show
   (setq org-agenda-entry-text-maxlines 20)
@@ -180,8 +182,8 @@
                      (org-agenda-start-on-weekday nil)
                      (org-deadline-warning-days 7)
                      (org-agenda-files (list my-backlog-file
-                                             my-projects-file my-one-off-file
-                                             my-events-file))
+                                             my-projects-file
+                                             ))
                      (org-agenda-prefix-format " %i %-12t% s")
                      (org-agenda-start-with-log-mode t)))
 
@@ -197,7 +199,7 @@
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-projects-file
-                                           my-papers-file my-one-off-file))))
+                                           my-papers-file))))
             )
            )
 
@@ -208,13 +210,14 @@
                      (org-agenda-start-day "<today>")
                      (org-deadline-warning-days 14)
                      (org-agenda-files (list my-backlog-file
-                                             my-projects-file my-one-off-file
-                                             my-events-file))
+                                             my-projects-file
+                                             ))
                      (org-agenda-prefix-format " %i %-12t% s")
                      (org-agenda-start-with-log-mode t)))
 
             (stuck ""
                    ((org-agenda-overriding-header "Stuck Projects")
+                   (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
                    (org-agenda-prefix-format
                     " %i %?-25(toa/print-org-outline-path 25) % s")
                     (org-agenda-files (list my-projects-file))
@@ -226,7 +229,7 @@
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-projects-file
-                                           my-papers-file my-one-off-file))))
+                                           my-papers-file))))
 
             (tags "+TODO=\"WAITING\""
                   ((org-agenda-overriding-header "Blockers")
@@ -247,7 +250,7 @@
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-projects-file
-                                           my-papers-file my-one-off-file))))
+                                           my-papers-file))))
             )
            )
 
@@ -256,10 +259,10 @@
             (agenda ""
                     ((org-agenda-span 'week)
                      (org-agenda-start-on-weekday 1)
-                     (org-deadline-warning-days 30)
+                     (org-deadline-warning-days 90)
                      (org-agenda-files (list my-backlog-file
-                                             my-projects-file my-one-off-file
-                                             my-events-file))
+                                             my-projects-file
+                                             ))
                      (org-agenda-prefix-format " %i %-12t% s")
                      ;; (org-agenda-skip-scheduled-if-deadline-is-shown t)
                      (org-agenda-start-with-log-mode t)))
@@ -290,6 +293,7 @@
 
             (stuck ""
                    ((org-agenda-overriding-header "Stuck Projects")
+                   (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
                    (org-agenda-prefix-format
                     " %i %?-25(toa/print-org-outline-path 25) % s")
                     (org-agenda-files (list my-projects-file))
@@ -301,7 +305,7 @@
                    (org-agenda-prefix-format 
                     " %i %?-30(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-projects-file
-                                           my-papers-file my-one-off-file))))
+                                           my-papers-file))))
 
             (tags "+TODO=\"WAITING\""
                   ((org-agenda-overriding-header "Blockers")
@@ -329,7 +333,7 @@
                    (org-agenda-prefix-format
                     " %i %?-30(toa/print-org-outline-path 30) % s")
                    (org-agenda-files (list my-projects-file
-                                           my-papers-file my-one-off-file))))
+                                           my-papers-file))))
             ;; (tags "+TODO=\"DONE\"+CLOSED>\"<-1w>\""
             ;;       ((org-agenda-overriding-header "Actions Since One Week Ago")
             ;;        (org-agenda-todo-keyword-format "%+7s")
