@@ -272,11 +272,11 @@
                    (org-agenda-prefix-format " %i %-30t% s")
                    (org-agenda-files (list my-projects-file))))
 
-            (tags "+TODO=\"TARGET\"|+TODO=\"VISION\""
-                  ((org-agenda-overriding-header "Targets and Visions")
-                   (org-agenda-prefix-format
-                    " %i %?-23(toa/print-org-outline-path 23) % s")
-                   (org-agenda-files (list my-projects-file))))
+            ;; (tags "+TODO=\"TARGET\"|+TODO=\"VISION\""
+            ;;       ((org-agenda-overriding-header "Targets and Visions")
+            ;;        (org-agenda-prefix-format
+            ;;         " %i %?-23(toa/print-org-outline-path 23) % s")
+            ;;        (org-agenda-files (list my-projects-file))))
 
             (tags "+TODO=\"REQUIREMENT\"|+TODO=\"MILESTONE\""
                   ((org-agenda-overriding-header "Requirements and Milestones")
