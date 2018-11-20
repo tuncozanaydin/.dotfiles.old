@@ -1,0 +1,28 @@
+[general]
+accounts = DisneyResearch
+pythonfile = ~/.dotfiles/lib.py
+
+[DEFAULT]
+
+
+[Account DisneyResearch]
+localrepository = LocalGmail
+remoterepository = RepositoryGmail
+synclabels = yes
+labelsheader = X-Keywords
+maxconnections = 2
+
+[Repository LocalGmail]
+type = GmailMaildir
+localfolders = ~/.mail/disneyresearch.com
+nametrans = nametrans
+
+[Repository RepositoryGmail]
+type = Gmail
+remoteusereval = get_pass("gmail/tunc.aydin")["user"]
+remotepasseval = get_pass("gmail/tunc.aydin")["password"]
+folderfilter = folder_filter
+realdelete = no
+ssl = true
+sslcacertfile = /etc/ssl/certs/ca-sertificates.crt
+nametrans = nametrans_reverse
