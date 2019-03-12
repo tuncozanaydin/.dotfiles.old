@@ -1,4 +1,4 @@
-;;; ~/.doom.d/+keybinds.el -*- lexical-binding: t; -*-
+;;; ~/.dotfiles/.doom.d/+keybinds.el -*- lexical-binding: t; -*-
 
 (defun set-in-evil-states (key def maps)
   (while maps
@@ -17,18 +17,20 @@
                                       evil-visual-state-map))))
 
 (after! evil
-(set-evil-mnvo-binding "h" 'evil-backward-char)
-(set-evil-mnvo-binding "e" 'evil-previous-line)
-(set-evil-mnvo-binding "n" 'evil-next-line)
-(set-evil-mnvo-binding "i" 'evil-forward-char)
-(set-evil-mnvo-binding "k" 'evil-search-next)
-(set-evil-mnvo-binding "K" 'evil-search-previous)
+  (set-evil-mnvo-binding "h" 'evil-backward-char)
+  (set-evil-mnvo-binding "e" 'evil-previous-line)
+  (set-evil-mnvo-binding "n" 'evil-next-line)
+  (set-evil-mnvo-binding "i" 'evil-forward-char)
+  (set-evil-mnvo-binding "j" 'evil-next-match)
+  (set-evil-mnvo-binding "J" 'evil-previous-match)
+  (set-evil-mnvo-binding "k" 'evil-forward-word-end)
+  (set-evil-mnvo-binding "K" 'evil-backward-word-end)
 
-(set-evil-nv-binding "u" 'evil-insert)
-(set-evil-nv-binding "U" 'evil-insert-line)
-(set-evil-nv-binding "l" 'undo-tree-undo)
-(set-evil-nv-binding "L" 'undo-tree-redo)
-)
+  (set-evil-nv-binding "u" 'evil-insert)
+  (set-evil-nv-binding "U" 'evil-insert-line)
+  (set-evil-nv-binding "l" 'undo-tree-undo)
+  (set-evil-nv-binding "L" 'undo-tree-redo)
+  )
 
 (after! org-agenda
   (setq org-agenda-mode-map (make-sparse-keymap)))
@@ -52,7 +54,7 @@
    :desc "goto org entry" :m "g" #'org-agenda-goto
    :desc "open link" :m "o" #'org-agenda-open-link
    :desc "show entry text" :m "e" #'org-agenda-entry-text-mode
-   :desc "save all" :m "S" #'projectile-save-project-buffers
+   :desc "save all" :m "S" #'org-save-all-org-buffers
    :desc "capture" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
    :desc "heading project" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
    :desc "heading note" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
@@ -69,6 +71,7 @@
    :desc "earlier" :m "ve" #'org-agenda-earlier
    :desc "today" :m "vt" #'org-agenda-goto-today
    )
+
  (:after org-capture
    :map org-capture-mode-map
    :localleader
@@ -106,13 +109,13 @@
    :desc "+ width" :mnvo "<right>" #'evil-window-increase-width
    :desc "- width" :mnvo "<left>" #'evil-window-decrease-width
    :desc "balance" :mnvo "=" #'balance-windows
-
    )
+
  (:desc "drill" :prefix "D"
    :desc "test" :nv "t" #'(lambda () (interactive) (progn (find-file "~/org/memory.org") (org-drill)))
    )
+
  (:desc "agenda" :prefix "a"
-   :desc "strategy view" :nv "s" #'(lambda () (interactive) (progn (org-agenda nil "s")) (delete-other-windows))
    :desc "plan view" :nv "p" #'(lambda () (interactive) (progn (org-agenda nil "p")) (delete-other-windows))
    :desc "focus view" :nv "f" #'(lambda () (interactive) (org-agenda nil "f"))
    :desc "capture scrap" :nv "a" #'(lambda () (interactive) (org-capture nil "c"))
@@ -131,12 +134,3 @@
      :desc "insert" :nv "i" #'org-insert-link)
    )
  )
-
-;; org-agenda
-;; org-capture buffer
-;; org-drill
-;; org time tracking
-;; latex/bibtex
-;; python/pdb
-;; website stuff
-;; git
