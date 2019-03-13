@@ -75,7 +75,7 @@
  (:after org-capture
    :map org-capture-mode-map
    :localleader
-   :desc "kill buffer" :n "x" #'org-capture-kill
+   :desc "kill buffer" :n "k" #'org-capture-kill
    :desc "refile" :n "w" #'org-capture-refile
    :desc "save and close" :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
    :desc "insert link" :n "l" #'org-insert-link
