@@ -1,6 +1,6 @@
 ;;; ~/.dotfiles/.doom.d/+org-agenda-capture-refile.el -*- lexical-binding: t; -*-
 
-(setq org-agenda-todo-keyword-format "%+12s")
+(setq org-agenda-todo-keyword-format "%+8s")
 
 (setq org-todo-keywords
       '((sequence "SCRAP(a)" "TODO(t)" "WAITING(w)" "PROJECT(p)" "SPRINT(s)"

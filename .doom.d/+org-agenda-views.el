@@ -54,7 +54,7 @@
                  ((org-agenda-overriding-header "Stuck Projects")
                   (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
                   (org-agenda-prefix-format
-                   " %i %?-25(toa/print-org-outline-path 25) % s")
+                   " %i %?-25(toa/print-org-outline-path 25) % s % e")
                   (org-agenda-files (list my-projects-file))
                   ))
 
@@ -62,7 +62,7 @@
                 ((org-agenda-overriding-header "Actionables")
                  (org-agenda-todo-keyword-format "%+4s")
                  (org-agenda-prefix-format
-                  " %i %?-30(toa/print-org-outline-path 30) % s")
+                  " %i %?-30(toa/print-org-outline-path 30) % s % e")
                  (org-agenda-files (list my-projects-file
                                          my-papers-file))))
 
@@ -70,14 +70,13 @@
                 ((org-agenda-overriding-header "Backlog")
                  (org-agenda-sorting-strategy '(todo-state-down tag-up))
                  (org-agenda-prefix-format
-                  " %i %?-23(toa/print-org-outline-path 23) % s")
+                  " %i %?-23(toa/print-org-outline-path 23) % s % e")
                  (org-agenda-files (list my-backlog-file))))
 
           (tags "+LEVEL>=1"
                 ((org-agenda-overriding-header "Inbox")
                  (org-agenda-sorting-strategy '(ts-down todo-state-down tag-up))
-                 (org-agenda-prefix-format
-                  " %i %?-23(toa/print-org-outline-path 30) % s")
+                 (org-agenda-prefix-format " %i % s % e")
                  (org-agenda-files (list my-inbox-file))))
 
           (tags "+TODO=\"WAITING\""
@@ -90,7 +89,7 @@
                 ((org-agenda-overriding-header "Closed during the last 7 days ")
                  (org-agenda-todo-keyword-format "%+4s")
                  (org-agenda-prefix-format
-                  " %i %?-30(toa/print-org-outline-path 30) % s")
+                  " %i %?-30(toa/print-org-outline-path 30) % s % e")
                  (org-agenda-files (list my-projects-file
                                          my-papers-file))))
           )

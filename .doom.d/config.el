@@ -12,5 +12,6 @@
   (load! "+org-agenda-views")
   (load! "+org-agenda-capture-refile")
   (load! "+org-agenda-tags")
+  (load! "+org-agenda-clock")
   )
 
