@@ -2,6 +2,8 @@
 
 (setq org-agenda-todo-keyword-format "%+8s")
 
+(setq org-log-done 'time)
+
 (setq org-todo-keywords
       '((sequence "SCRAP(a)" "TODO(t)" "WAITING(w)" "PROJECT(p)" "SPRINT(s)"
                   "|" "DONE(d)" )))

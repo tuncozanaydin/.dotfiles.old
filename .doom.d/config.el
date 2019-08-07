@@ -3,6 +3,7 @@
 ;; Place your private configuration here
 
 (setq doom-localleader-key ",")
+(setq doom-theme 'doom-one)
 (setq doom-font (font-spec :family "Source Code Pro" :size 15))
 (load! "+keybinds")
 (load! "+deft")

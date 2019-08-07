@@ -32,54 +32,68 @@
   (set-evil-nv-binding "L" 'undo-tree-redo)
   )
 
-(after! org-agenda
-  (setq org-agenda-mode-map (make-sparse-keymap)))
+;; (after! org-agenda
+;;   (setq org-agenda-mode-map (make-sparse-keymap)))
+
 (after! evil
   (setq evil-window-map (make-sparse-keymap)))
 (map!
- (:after org-agenda
-   :map org-agenda-mode-map
+   :map org-agenda-localleader-mode-map
    :localleader
    :desc "quit agenda retain buffers" :m "q" #'org-agenda-quit
    :desc "exit agenda close buffers" :m "x" #'org-agenda-exit
-   :desc "set todo state" :m "t" #'org-agenda-todo
+   ;; :desc "set todo state" :m "t" #'org-agenda-todo
+   :m "t" #'(lambda () "set todo state" (interactive) (progn (org-agenda-todo) (org-agenda-redo)))
+   :desc "refile" :m "w" #'org-capture-refile
    :desc "refile item" :m "w" #'org-agenda-refile
    :desc "set tags" :m "f" #'org-agenda-set-tags
-   :desc "archive item" :m "b" #'org-agenda-archive-default-with-confirmation
    :desc "schedule item" :m "s" #'org-agenda-schedule
    :desc "set deadline" :m "d" #'org-agenda-deadline
-   :desc "refresh" :m "r" #'org-agenda-redo
-   :desc "undo" :m "l" #'org-agenda-undo
    :desc "kill item" :m "k" #'org-agenda-kill
-   :desc "goto org entry" :m "g" #'org-agenda-goto
-   :desc "open link" :m "o" #'org-agenda-open-link
-   :desc "show entry text" :m "e" #'org-agenda-entry-text-mode
    :desc "save all" :m "S" #'org-save-all-org-buffers
-   :desc "capture" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
-   :desc "heading project" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
-   :desc "heading note" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
-   :desc "clock in" :m "ci" #'org-agenda-clock-in
-   :desc "clock out" :m "co" #'org-agenda-clock-out
-   :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
-   :desc "clock resume" :m "cr" #'org-agenda-clock-in-last
-   :desc "clock goto" :m "cg" #'org-agenda-clock-goto
-   :desc "day view" :m "vd" #'org-agenda-day-view
-   :desc "week view" :m "vw" #'org-agenda-week-view
-   :desc "fortnight view" :m "vf" #'org-agenda-fortnight-view
-   :desc "month view" :m "vm" #'org-agenda-month-view
-   :desc "later" :m "vn" #'org-agenda-later
-   :desc "earlier" :m "ve" #'org-agenda-earlier
-   :desc "today" :m "vt" #'org-agenda-goto-today
-   )
+   :desc "capture" :m "a" #'(lambda () "capture" (interactive) (org-capture nil "c"))
+   :desc "archive item" :m "A" #'org-agenda-archive-default-with-confirmation
+ ;; (:after org-agenda
+ ;;   :map org-agenda-mode-map
+ ;;   :localleader
+ ;;   :desc "quit agenda retain buffers" :m "q" #'org-agenda-quit
+ ;;   :desc "exit agenda close buffers" :m "x" #'org-agenda-exit
+ ;;   :desc "set todo state" :m "t" #'org-agenda-todo
+ ;;   :desc "refile item" :m "w" #'org-agenda-refile
+ ;;   :desc "set tags" :m "f" #'org-agenda-set-tags
+ ;;   :desc "archive item" :m "b" #'org-agenda-archive-default-with-confirmation
+ ;;   :desc "schedule item" :m "s" #'org-agenda-schedule
+ ;;   :desc "set deadline" :m "d" #'org-agenda-deadline
+ ;;   :desc "refresh" :m "r" #'org-agenda-redo
+ ;;   :desc "undo" :m "l" #'org-agenda-undo
+ ;;   :desc "kill item" :m "k" #'org-agenda-kill
+ ;;   :desc "goto org entry" :m "g" #'org-agenda-goto
+ ;;   :desc "open link" :m "o" #'org-agenda-open-link
+ ;;   :desc "show entry text" :m "e" #'org-agenda-entry-text-mode
+ ;;   :desc "save all" :m "S" #'org-save-all-org-buffers
+ ;;   :desc "capture" :m "a" #'(lambda () (interactive) (org-capture nil "c"))
+ ;;   :desc "heading project" :m "hp" #'(lambda () (interactive) (org-capture nil "p"))
+ ;;   :desc "heading note" :m "hn" #'(lambda () (interactive) (org-capture nil "n"))
+ ;;   :desc "clock in" :m "ci" #'org-agenda-clock-in
+ ;;   :desc "clock out" :m "co" #'org-agenda-clock-out
+ ;;   :desc "clock exit" :m "cx" #'org-agenda-clock-cancel
+ ;;   :desc "clock resume" :m "cr" #'org-agenda-clock-in-last
+ ;;   :desc "clock goto" :m "cg" #'org-agenda-clock-goto
+ ;;   :desc "day view" :m "vd" #'org-agenda-day-view
+ ;;   :desc "week view" :m "vw" #'org-agenda-week-view
+ ;;   :desc "fortnight view" :m "vf" #'org-agenda-fortnight-view
+ ;;   :desc "month view" :m "vm" #'org-agenda-month-view
+ ;;   :desc "later" :m "vn" #'org-agenda-later
+ ;;   :desc "earlier" :m "ve" #'org-agenda-earlier
+ ;;   :desc "today" :m "vt" #'org-agenda-goto-today
+ ;;   )
 
- (:after org-capture
    :map org-capture-mode-map
    :localleader
    :desc "kill buffer" :n "k" #'org-capture-kill
    :desc "refile" :n "w" #'org-capture-refile
    :desc "save and close" :n "c" #'(lambda () (interactive) (progn (org-capture-finalize) (org-agenda-redo)))
-   :desc "insert link" :n "l" #'org-insert-link
-   )
+   ;; :desc "insert link" :n "l" #'org-insert-link
 
  (:after deft
    :map deft-mode-map
